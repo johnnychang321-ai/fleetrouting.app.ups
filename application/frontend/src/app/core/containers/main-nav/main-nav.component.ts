@@ -18,6 +18,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Page } from '../../models';
 import DenormalizeSelectors from 'src/app/core/selectors/denormalize.selectors';
 import DispatcherApiSelectors from '../../selectors/dispatcher-api.selectors';
@@ -27,8 +28,13 @@ import * as fromSolution from 'src/app/core/selectors/solution.selectors';
 import * as fromUI from 'src/app/core/selectors/ui.selectors';
 import PreSolveVehicleSelectors from 'src/app/core/selectors/pre-solve-vehicle.selectors';
 import * as fromConfig from 'src/app/core/selectors/config.selectors';
+import { selectRoutesApiKey } from 'src/app/core/selectors/config.selectors';
+import VisitRequestSelectors from 'src/app/core/selectors/visit-request.selectors';
+import { selectEntities as selectVisitRequestEntities } from 'src/app/core/selectors/visit-request.selectors';
 import { PreSolveShipmentActions, PreSolveVehicleActions } from '../../actions';
 import * as fromDispatcher from 'src/app/core/selectors/dispatcher.selectors';
+import { DistanceMatrixExportService } from 'src/app/core/services/distance-matrix-export.service';
+import { selectShipments } from 'src/app/core/selectors/scenario.selectors';
 
 @Component({
   selector: 'app-main-nav',
@@ -53,7 +59,11 @@ export class MainNavComponent {
     return Page;
   }
 
-  constructor(private router: Router, private store: Store) {
+  constructor(
+    private router: Router, 
+    private store: Store,
+    private distanceMatrixService: DistanceMatrixExportService
+  ) {
     this.solutionTime$ = this.store.pipe(select(fromDispatcher.selectSolutionTime));
     this.disabled$ = this.store.pipe(select(fromPreSolve.selectGenerateDisabled));
     this.hasSolution$ = this.store.pipe(select(fromSolution.selectHasSolution));
@@ -95,5 +105,18 @@ export class MainNavComponent {
 
   addVehicle(): void {
     this.store.dispatch(PreSolveVehicleActions.addVehicle({}));
+  }
+
+  async exportDistanceMatrix(): Promise<void> {
+    const vehicles = await this.store.pipe(select(PreSolveVehicleSelectors.selectVehicles), take(1)).toPromise();
+    const shipments = await this.store.pipe(select(selectShipments), take(1)).toPromise();
+    const routesApiKey = await this.store.pipe(select(selectRoutesApiKey), take(1)).toPromise();
+    
+    // Process Arrays and Dictionaries to construct Origins/Destinations
+    await this.distanceMatrixService.exportDistanceMatrix(
+      vehicles || [],
+      shipments as any[] || [],
+      (routesApiKey as string) || ''
+    );
   }
 }

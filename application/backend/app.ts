@@ -105,6 +105,7 @@ app.get("/config.json", async (req: Request, res: Response) => {
       config.map = {};
     }
     config.map.apiKey = process.env.MAP_API_KEY;
+    config.map.routesApiKey = process.env.ROUTES_API_KEY || process.env.MAP_API_KEY;
 
     // storage api
     if (!config.storageApi) {

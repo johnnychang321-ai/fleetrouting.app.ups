@@ -16,6 +16,7 @@ limitations under the License.
 
 export interface MapConfig {
   apiKey: string;
+  routesApiKey?: string;
   symbols?: SymbolConfig;
   options?: google.maps.MapOptions;
 }

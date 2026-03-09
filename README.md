@@ -25,6 +25,25 @@ tune constraint parameters, visualize routes, and more.
 
 <https://developers.google.com/maps/documentation/route-optimization>
 
+## Custom Enhancements
+This fork of the Fleet Routing App features several custom UI and functional upgrades:
+
+### 📦 UPS Branding & UI
+- **Custom Theming:** Sideloaded an interactive UPS Gold (`#ffb500`) and UPS Brown (`#351c15`) SCSS palette.
+- **Header Modification:** Replaced the generic Google Maps header text with the official UPS logo for a fully branded experience.
+- **Styling Alignment:** Core navigation items, including dynamic map selection colors and export buttons, execute the UPS color dictionary to maintain high-contrast legibility.
+
+### 🗺️ Interactive Vehicle Maps
+- **Clickable SVG Entities:** Vehicle pins rendered on the map are fully clickable.
+- **Smart Data Dialogs:** 
+  - *Pre-solve mode*: Displays vehicle labels, global load limits, and start times.
+  - *Post-solve mode*: Dynamically transforms to display assigned shipment counts and total route duration formatting.
+
+### 📍 Distance Matrix Export (Routes API)
+- **Direct Fetch API Integration:** A dedicated `get DM` module generates an explicit Distance Matrix using `routes.googleapis.com`.
+- **Location Extraction:** Natively extracts raw `IShipment` lat/lng coordinates to map Vehicles/Shipments as generic origins and Shipments as localized destinations.
+- **Native ZIP Bundling:** Bypasses intermediate browser blob-dumps by directly serializing both the `request.json` payload and the `response.json` API matrix into a consolidated `.zip` file utilizing `jszip`.
+
 ![Fleet Routing App screenshot](application/frontend/src/assets/docs/app-overview.png)
 
 ## Intended Use
@@ -100,6 +119,14 @@ follow the steps in the development guide:
 
 - **[Development Guide](docs/development.md)** <br>
   Run Fleet Routing App in your local Node.js environment.
+
+> [!IMPORTANT]
+> **API Key Configurations:**
+> This fork relies on two Google Maps Platform APIs. Before launching the local development server, ensure your environment variables are seeded with identical or separate keys for the platform:
+> - `MAP_API_KEY`: Required for rendering the interactive Leaflet/Google base maps.
+> - `ROUTES_API_KEY`: Required to execute the discrete native Distance Matrix generator (will automatically default to the base `MAP_API_KEY` if not explicitly supplied).
+>
+> Example startup command: `ROUTES_API_KEY=AIzaSy... npm run dev`
 
 
 ---

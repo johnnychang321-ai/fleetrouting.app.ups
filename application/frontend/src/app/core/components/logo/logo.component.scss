@@ -15,17 +15,11 @@
   white-space: nowrap;
 }
 
-.branding__name {
+@import '../../../../styles/variables.scss';
+
+.ups-logo {
   position: relative;
-  top: -1.5px;
-  color: #5f6368;
-  font-family: 'Google Sans', 'Roboto', Arial, sans-serif;
-  font-style: normal;
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 28px;
-  text-rendering: optimizeLegibility;
-  text-align: left;
+  top: -2px;
 }
 
 .branding__logo {

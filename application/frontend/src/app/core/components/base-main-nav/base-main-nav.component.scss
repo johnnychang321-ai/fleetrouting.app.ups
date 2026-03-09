@@ -46,6 +46,13 @@
 
 .nav-generate {
   padding: 1rem 0 0.5rem 34px;
+  
+  button {
+    background-color: #ffb500 !important; /* UPS Gold */
+    color: #351c15 !important; /* UPS Brown Text */
+    font-weight: bold;
+    border-radius: 4px;
+  }
 }
 
 .nav-message {
@@ -68,15 +75,15 @@
     border-radius: 0 26px 26px 0;
 
     &.selected {
-      background-color: #e8f0fd;
-      color: $blue-dark;
+      background-color: map-get($brown-map, 400); // Lighter brown selection highlight
+      color: #ffb500 !important; // UPS Gold text
 
       .nav-subtitle svg,
       svg.nav-subitem-bullet {
         path,
         g path,
         circle {
-          fill: $blue-dark;
+          fill: #ffb500 !important; // UPS Gold icons
         }
       }
     }
@@ -109,4 +116,16 @@
 .generation-label {
   width: 10rem;
   padding: 0 1rem;
+}
+
+::ng-deep .nav-generate {
+  padding: 1rem 0 0.5rem 34px;
+  
+  button {
+    background-color: #ffb500 !important; /* UPS Gold */
+    color: #351c15 !important; /* UPS Brown Text */
+    font-weight: bold !important;
+    border-radius: 4px !important;
+    width: 126px !important;
+  }
 }

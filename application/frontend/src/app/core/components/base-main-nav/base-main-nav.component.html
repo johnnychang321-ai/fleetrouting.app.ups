@@ -114,6 +114,11 @@
       [solving]="solving"
       [label]="label"></app-generate-button>
   </div>
+  <div class="nav-item nav-subitem nav-generate" style="padding-top: 0; padding-bottom: 2rem;">
+    <button mat-flat-button (click)="exportDistanceMatrix.emit()">
+      get DM
+    </button>
+  </div>
   <div class="nav-item nav-subitem" *ngIf="hasSolutionWarning">
     <app-post-solve-message class="nav-message"></app-post-solve-message>
   </div>

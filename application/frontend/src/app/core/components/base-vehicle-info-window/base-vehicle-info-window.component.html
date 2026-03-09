@@ -1,27 +1,32 @@
 <div class="text__title">
   {{ vehicle | entityName: 'Vehicle' }}
 </div>
-<div *ngIf="route" class="text__caption">
-  Route Start: <span class="strong">{{ formatDate(route.vehicleStartTime) }}</span>
-</div>
-<div *ngIf="route" class="text__caption">
-  Route End: <span class="strong">{{ formatDate(route.vehicleEndTime) }}</span>
-</div>
-<div *ngIf="route" class="text__caption">
-  Route Distance:
-  <span class="strong">{{ route.metrics.travelDistanceMeters / 1000 | number: '1.1-1' }} km</span>
-</div>
-<div *ngIf="shipmentCount != null" class="text__caption">
-  Shipments: <span class="strong">{{ shipmentCount }}</span>
-</div>
-<div *ngIf="route?.metrics?.maxLoads" class="d-flex text__caption">
-  <div class="mr-1">Max load:</div>
-  <div ngClass="d-flex flex-column">
-    <div *ngFor="let load of ObjectKeys(route.metrics?.maxLoads); let first = first">
-      <span class="strong"
-        >{{ route.metrics.maxLoads[load].amount }} / {{ vehicle.loadLimits[load].maxLoad }}
-        {{ load }}</span
-      >
+
+<!-- ========================= -->
+<!-- Request View (Pre-Solve) -->
+<!-- ========================= -->
+<ng-container *ngIf="!route">
+  <div *ngIf="vehicle.startTimeWindows?.length" class="text__caption">
+    Start Time: <span class="strong">{{ formatDate(vehicle.startTimeWindows[0].startTime) }}</span>
+  </div>
+  <div *ngIf="vehicle.loadLimits" class="d-flex text__caption mt-2">
+    <div class="mr-1">Max load:</div>
+    <div ngClass="d-flex flex-column">
+      <div *ngFor="let load of ObjectKeys(vehicle.loadLimits); let first = first">
+        <span class="strong">{{ vehicle.loadLimits[load].maxLoad }} {{ load }}</span>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
+
+<!-- ========================= -->
+<!-- Response View (Post-Solve)-->
+<!-- ========================= -->
+<ng-container *ngIf="route">
+  <div *ngIf="shipmentCount != null" class="text__caption mt-2">
+    Shipments: <span class="strong">{{ shipmentCount }}</span>
+  </div>
+  <div *ngIf="routeDuration" class="text__caption">
+    Route Duration: <span class="strong">{{ routeDuration }}</span>
+  </div>
+</ng-container>

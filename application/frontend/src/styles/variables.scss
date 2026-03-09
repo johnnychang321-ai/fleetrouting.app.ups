@@ -72,10 +72,39 @@ $blue-map: (
   ),
 );
 
+$brown-map: (
+  50: #e4e0df,
+  100: #bab2af,
+  200: #8c807b,
+  300: #5e4e48,
+  400: #3b2a22,
+  500: #351c15,
+  600: #2b1710,
+  700: #21110c,
+  800: #170b07,
+  900: #090302,
+  A100: #ffffff,
+  A200: #eef2ff,
+  A400: #bbcbff,
+  A700: #a1b8ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  ),
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$dispatcher-app-primary: mat.define-palette($blue-map);
+$dispatcher-app-primary: mat.define-palette($brown-map);
 $dispatcher-app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).

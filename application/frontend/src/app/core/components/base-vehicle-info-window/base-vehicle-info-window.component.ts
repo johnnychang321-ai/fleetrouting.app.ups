@@ -57,4 +57,24 @@ export class BaseVehicleInfoWindowComponent {
       this.locale
     );
   }
+
+  get routeDuration(): string {
+    const totalDuration = this.route?.metrics?.totalDuration;
+    if (!totalDuration) {
+      return '';
+    }
+
+    let seconds: number;
+    // The metric could be an ISO string (e.g. "8000s") or an ITimestamp { seconds, nanos }
+    if (typeof totalDuration === 'string') {
+      seconds = parseFloat((totalDuration as string).replace('s', ''));
+    } else {
+      seconds = durationSeconds(totalDuration).toNumber();
+    }
+    
+    // Convert seconds to HH:mm format
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    return `${hours}h ${minutes}m`;
+  }
 }
